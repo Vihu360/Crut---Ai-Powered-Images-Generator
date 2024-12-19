@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image, TextInput } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image, TextInput, SafeAreaView } from 'react-native';
 import Header from '../../components/Home/Header';
 import AiFeaturemodels from '../../components/Home/AiFeaturemodels';
 import AvatarModels from '../../components/Home/AvatarModels';
@@ -52,20 +52,7 @@ const PictifyAI = () => {
         </ScrollView>
 
         {/* Avatars Section */}
-        {/* <Text style={styles.sectionTitle}>Avatar</Text>
-        <View style={styles.avatarGrid}>
-          {[...Array(6)].map((_, index) => (
-            <TouchableOpacity key={index} style={styles.avatarContainer}>
-              <Image
-                source={{
-                  uri: avatar[index],
-                }}
-                style={styles.avatar}
-              />
-            </TouchableOpacity>
-          ))}
-        </View> */}
-
+        
         <AvatarModels />
 
         {/* Gallery Section */}
@@ -75,7 +62,7 @@ const PictifyAI = () => {
             <TouchableOpacity key={index} style={styles.galleryImageContainer}>
               <Image
                 source={{
-                  uri: `https://via.placeholder.com/200?text=Image+${index + 1}`,
+                  uri: avatar[index],
                 }}
                 style={styles.galleryImage}
               />
@@ -100,6 +87,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#FFFFFF',
     padding: 15,
+    paddingTop: 40 
   },
   scrollContent: {
     paddingBottom: 20,

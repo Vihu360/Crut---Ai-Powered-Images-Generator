@@ -124,7 +124,7 @@ const getAvatarList = async () => {
 
     try {
 
-        const response = await axiosClient.get('/ai-models?filters[avatar][$eq]=true');
+        const response = await axiosClient.get('/ai-models?filters[avatar][$eq]=true&populate=*');
         return response.data;
         
     }

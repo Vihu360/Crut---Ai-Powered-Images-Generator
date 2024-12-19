@@ -1,31 +1,35 @@
 import { Stack } from "expo-router";
+import { ClerkProvider, ClerkLoaded } from "@clerk/clerk-expo";
+import { StatusBar } from "expo-status-bar";
+import { SafeAreaView, StyleSheet } from "react-native";
 import { tokenCache } from "@/cache";
-import { ClerkProvider, ClerkLoaded } from '@clerk/clerk-expo'
-import userDetailContext from '../context/UserDetailsContext'
+import userDetailContext from "../context/UserDetailsContext";
 import { useState } from "react";
 
-
 export default function RootLayout() {
+  const [userDetail, setUserDetail] = useState(null);
 
-  const [userDetail, setUserDetail] = useState();
-
-  const publishableKey = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY!
+  const publishableKey = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY;
 
   if (!publishableKey) {
-    throw new Error('Add EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY to your .env file')
+    console.error("Missing EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY in .env file.");
+    return null;
   }
 
-
   return (
-    <ClerkProvider tokenCache={tokenCache}  publishableKey={publishableKey}>
+    <ClerkProvider tokenCache={tokenCache} publishableKey={publishableKey}>
       <ClerkLoaded>
         <userDetailContext.Provider value={{ userDetail, setUserDetail }}>
-        <Stack screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="index" />
-          <Stack.Screen name="login" />
-        </Stack>
+          {/* Ensure status bar style */}
+          <StatusBar style="dark" translucent backgroundColor="transparent" />
+          {/* Use SafeAreaView to avoid overlapping with the notification bar */}
+            <Stack screenOptions={{ headerShown: false }}>
+              <Stack.Screen name="index" />
+              <Stack.Screen name="login" />
+            </Stack>
         </userDetailContext.Provider>
       </ClerkLoaded>
     </ClerkProvider>
   );
 }
+

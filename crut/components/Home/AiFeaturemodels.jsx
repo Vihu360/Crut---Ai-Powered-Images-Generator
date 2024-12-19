@@ -1,9 +1,11 @@
-import { View, Text, FlatList, StyleSheet } from 'react-native';
+import { View, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
 import React, { useEffect } from 'react';
 import GlobalApi from '../../services/GlobalApi';
+import { useRouter } from 'expo-router';
 
 export default function AiFeaturemodels() {
   const [listData, setListData] = React.useState([]);
+  const router = useRouter();
 
   useEffect(() => {
     GetAifeaturedModellist();
@@ -15,22 +17,27 @@ export default function AiFeaturemodels() {
     setListData(response.data);
   };
 
+  const handlePress = (item) => {
+    router.push({
+      pathname: '/formInput',
+      params: item
+    })
+  };
+
   return (
-    <View style={styles.container}>
-      <FlatList
-        data={listData}
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        keyExtractor={(item, index) => index.toString()}
-        renderItem={({ item }) => (
-          <View style={styles.item}>
-            <Text style={styles.text}>{item.name}</Text>
-          </View>
-        )}
-      />
-    </View>
+    <FlatList
+      data={listData}
+      horizontal
+      showsHorizontalScrollIndicator={false}
+      keyExtractor={(item, index) => index.toString()}
+      renderItem={({ item }) => (
+        <TouchableOpacity style={styles.item} onPress={() => handlePress(item)}>
+          <Text style={styles.text}>{item.name}</Text>
+        </TouchableOpacity>
+      )}
+    />
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
